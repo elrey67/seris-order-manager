@@ -1,0 +1,81 @@
+.packaging-slip {
+    width: 102mm;
+    height: 152mm;
+    border: 1px solid #000;
+    padding: 10px;
+    position: relative;
+    font-family: "New Edditorial", sans-serif;
+}
+
+.company-logo-container {
+    padding-left: 10px;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.company-logo-container img {
+    max-height: 50px;
+    max-width: 100px;
+}
+
+.company-info {
+    position: absolute;
+    left: 180px;
+    top: 5px;
+    max-width: 230px;
+    height: 200px;
+    padding-right: 10px;
+}
+
+.company-info p {
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+}
+
+.header-separator {
+    border: 1px solid #000;
+    margin: 10px 0;
+    margin-top: 50px;
+}
+
+.package-details h3 {
+    text-align: center;
+    margin: 2px 0;
+    padding: 0;
+}
+
+.package-details p {
+    margin: 2px 0;
+    padding: 0;
+}
+
+.qr-code-container {
+    text-align: right;
+    margin-top: -100px;
+}
+
+.qr-code-container img {
+    width: 60px;
+    height: 60px;
+}
+
+.barcode-container {
+    text-align: center;
+    margin-top: -20px;
+}
+
+.barcode-container img {
+    width: 250px;
+    height: 60px;
+}
+
+@page {
+    margin: 10px !important;
+}
+
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-family: "New Edditorial", sans-serif;
+}

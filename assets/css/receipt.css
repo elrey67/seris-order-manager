@@ -1,0 +1,94 @@
+.receipt-container {
+    margin: 0 auto;
+    text-align: center;
+    border: 1px solid #000 !important;
+    box-sizing: border-box;
+    padding: 10px;
+    font-family: 'DejaVu Sans', 'Noto Sans', sans-serif;
+    font-weight: 400;
+}
+
+body {
+    font-family: 'DejaVu Sans', 'Noto Sans', sans-serif;
+    font-weight: 400;
+}
+
+.price-cell {
+    font-family: 'DejaVu Sans', 'Noto Sans', sans-serif;
+    white-space: nowrap;
+    text-align: right !important;
+}
+
+@page {
+    margin: 10px;
+}
+
+@media print {
+    .receipt-container {
+        border: 1px solid #000 !important;
+    }
+}
+
+.receipt-container table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; /* Ensures consistent column widths */
+}
+
+.receipt-container th,
+.receipt-container td {
+    padding: 3px 5px;
+    vertical-align: top;
+}
+
+/* Column width definitions */
+.receipt-container th:nth-child(1),
+.receipt-container td:nth-child(1) {
+    width: 35% !important; /* Item column */
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.receipt-container th:nth-child(2),
+.receipt-container td:nth-child(2) {
+    width: 10% !important; /* Qty column */
+    text-align: center;
+}
+
+.receipt-container th:nth-child(3),
+.receipt-container td:nth-child(3) {
+    width: 55% !important; /* Price column */
+    text-align: right;
+    padding-right: 10px !important;
+}
+
+/* Total separator line */
+.total-row td {
+    border-top: 2px solid #000;
+    padding-top: 5px !important;
+}
+
+.company-logo {
+    max-height: 60px;
+    max-width: 120px;
+}
+
+p, h4, h2, h3 {
+    margin: 5px 0;
+    padding: 0;
+}
+
+.company-address {
+    margin: 5px 0;
+    padding: 0;
+}
+
+.company-header {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.below-sub {
+    margin-top: 15px;
+}

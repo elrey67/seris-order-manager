@@ -1,0 +1,11 @@
+{
+    "$schema": "https://getcomposer.org/schema.json",
+    "require": {
+        "endroid/qr-code": "6.0.8",
+        "dompdf/dompdf": "^3.1",
+        "picqer/php-barcode-generator": "3.2.2"
+    },
+    "config": {
+        "vendor-dir": "vendor"
+    }
+}

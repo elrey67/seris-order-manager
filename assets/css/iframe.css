@@ -1,0 +1,45 @@
+   body {
+                margin: 0;
+                padding: 0px;
+                background: #f0f0f1;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            
+            .paper-content {
+                margin: 0 auto;
+               
+                background: white;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            }
+            
+            .company-header {
+                text-align: center;
+                margin-bottom: 10px;
+            }
+            
+            .company-header img {
+                max-height: 50px;
+                max-width: 100%;
+                height: auto;
+            }
+            
+            .company-header h3 {
+                margin: 5px 0;
+                font-size: 20px;
+                color: #000;
+            }
+            
+            .company-address {
+                color: #000;
+                margin-bottom: 10px;
+                font-size: 12px;
+                line-height: 1.4;
+            }
+            
+            hr {
+                border: 1px solid #000;
+                margin: 10px 0;
+            }
