@@ -13,7 +13,7 @@ class Serisvri_PDF_Generator {
         
         // Load receipt template
         ob_start();
-        include SERIS_ORDER_MANAGER_PATH . '/templates/receipt-template.php';
+        include SERISVRI_SLIPS_PATH . '/templates/receipt-template.php';
         $html = ob_get_clean();
 
         if ($output) {
@@ -33,7 +33,7 @@ class Serisvri_PDF_Generator {
         
         // Load packing slip template
         ob_start();
-        include SERIS_ORDER_MANAGER_PATH . '/templates/packaging-slip-template.php';
+        include SERISVRI_SLIPS_PATH . '/templates/packaging-slip-template.php';
         $html = ob_get_clean();
 
         if ($output) {

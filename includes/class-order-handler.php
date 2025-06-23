@@ -15,6 +15,7 @@ class Serisvri_Order_Handler {
      * Initialize order handler
      */
     public function init() {
+        add_action('admin_notices', array($this, 'serisvri_customization_notice'));
         // Register custom order status
         add_action('init', array($this, 'register_shipped_order_status'), 20);
         
@@ -66,6 +67,265 @@ class Serisvri_Order_Handler {
         
         // Handle bulk print action
         add_action('admin_action_bulk_print', array($this, 'handle_bulk_print'));
+        
+        // Add settings sections
+        add_filter('woocommerce_get_sections_serisvri', array($this, 'add_customization_settings_section'));
+        add_filter('woocommerce_get_settings_serisvri', array($this, 'add_customization_settings'), 10, 2);
+        
+        // Enqueue frontend styles
+        add_action('wp_enqueue_scripts', array($this, 'enqueue_frontend_styles'));
+    }
+
+    /**
+     * Enqueue frontend styles
+     */
+    public function enqueue_frontend_styles() {
+        if (is_account_page()) {
+            wp_enqueue_style(
+                'serisvri-delivery-confirmation',
+                SERISVRI_SLIPS_URL . 'assets/css/delivery-confirmation.css',
+                array(),
+                SERISVRI_SLIPS_VERSION
+            );
+        }
+    }
+
+    /**
+     * Add customization settings section
+     */
+    public function add_customization_settings_section($sections) {
+        $sections['customization'] = __('Customization', 'seris-order-manager');
+        return $sections;
+    }
+
+    /**
+     * Add customization settings
+     */
+    public function add_customization_settings($settings, $current_section) {
+        if ($current_section === 'customization') {
+            $settings = array(
+                array(
+                    'title' => __('CSS Customization Guide', 'seris-order-manager'),
+                    'type'  => 'title',
+                    'desc'  => $this->get_css_guide_html(),
+                    'id'    => 'serisvri_css_guide'
+                ),
+                array(
+                    'type' => 'sectionend',
+                    'id'   => 'serisvri_css_guide_end'
+                )
+            );
+        }
+        return $settings;
+    }
+
+    /**
+     * Get CSS guide HTML
+     */
+    private function get_css_guide_html() {
+        ob_start();
+        ?>
+        <div class="serisvri-css-guide">
+            <h3><?php esc_html_e('How to Customize the Delivery Confirmation Section', 'seris-order-manager'); ?></h3>
+            
+            <p><?php esc_html_e('To customize the appearance of the delivery confirmation section, copy the CSS below and add it to:', 'seris-order-manager'); ?></p>
+            
+            <ul>
+                <li><?php esc_html_e('Your theme\'s Customizer (Appearance → Customize → Additional CSS)', 'seris-order-manager'); ?></li>
+                <li><?php esc_html_e('Elementor\'s Custom CSS (if using Elementor)', 'seris-order-manager'); ?></li>
+                <li><?php esc_html_e('Any custom CSS plugin', 'seris-order-manager'); ?></li>
+            </ul>
+            
+            <div class="css-code-container">
+                <h4><?php esc_html_e('CSS Selectors for Customization:', 'seris-order-manager'); ?></h4>
+                <pre><code><?php echo esc_html($this->get_css_template_with_comments()); ?></code></pre>
+                
+                <div class="css-copy-actions">
+                    <button class="button button-primary serisvri-copy-css" data-clipboard-target=".css-code-container pre">
+                        <?php esc_html_e('Copy CSS to Clipboard', 'seris-order-manager'); ?>
+                    </button>
+                    <span class="serisvri-copy-success" style="display:none; color:#46b450; margin-left:10px;">
+                        <?php esc_html_e('CSS copied!', 'seris-order-manager'); ?>
+                    </span>
+                </div>
+            </div>
+            
+            <h4><?php esc_html_e('Important Notes:', 'seris-order-manager'); ?></h4>
+            <ul>
+                <li><?php esc_html_e('Use !important sparingly and only when necessary to override other styles', 'seris-order-manager'); ?></li>
+                <li><?php esc_html_e('The plugin includes responsive styles by default (mobile-friendly)', 'seris-order-manager'); ?></li>
+                <li><?php esc_html_e('For advanced customizations, you may need to inspect elements with browser developer tools', 'seris-order-manager'); ?></li>
+            </ul>
+        </div>
+        
+        <script>
+        jQuery(document).ready(function($) {
+            // ClipboardJS for copying CSS
+            if (typeof ClipboardJS !== 'undefined') {
+                new ClipboardJS('.serisvri-copy-css').on('success', function() {
+                    $('.serisvri-copy-success').fadeIn().delay(2000).fadeOut();
+                });
+            }
+        });
+        </script>
+        
+        <style>
+        .css-code-container {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 15px 0;
+            position: relative;
+        }
+        .css-code-container pre {
+            white-space: pre-wrap;
+            margin: 0;
+            padding: 0;
+            background: transparent;
+            border: none;
+        }
+        .css-copy-actions {
+            margin-top: 10px;
+        }
+        </style>
+        <?php
+        return ob_get_clean();
+    }
+
+    /**
+     * Get CSS template with detailed comments
+     */
+    private function get_css_template_with_comments() {
+        return '/* ==============================================
+   SERIS Delivery Confirmation Styles
+   Copy this CSS to your theme or Elementor custom CSS
+   to customize the appearance.
+   
+   All elements have !important tags to ensure they
+   override theme styles by default. Remove these if
+   you want your theme styles to take precedence.
+============================================== */
+
+/* Main container for the delivery confirmation section */
+#serisvri-delivery-confirmation-section {
+    /* Layout & Box Model */
+    margin: 2em 0 !important;
+    padding: 1.5em !important;
+    
+    /* Visual Styles */
+    background: #f8f9fa !important;
+    border: 1px solid #e0e0e0 !important;
+    border-radius: 4px !important;
+    
+    /* Typography */
+    font-family: inherit !important;
+}
+
+/* Flex container for content and button */
+#serisvri-delivery-notice-container {
+    /* Flex Layout */
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 1.5em !important;
+    
+    /* Box Model */
+    width: 100% !important;
+}
+
+/* Content wrapper (title + message) */
+#serisvri-delivery-content-wrapper {
+    /* Flex child properties */
+    flex: 1 1 auto !important;
+}
+
+/* Delivery confirmation title */
+#serisvri-delivery-confirmation-title {
+    /* Typography */
+    font-size: 1.25em !important;
+    font-weight: 600 !important;
+    color: #2c3338 !important;
+    margin: 0 0 0.5em 0 !important;
+}
+
+/* Delivery confirmation message */
+#serisvri-delivery-confirmation-message {
+    /* Typography */
+    font-size: 0.9375em !important;
+    line-height: 1.5 !important;
+    color: #50575e !important;
+    margin: 0 !important;
+}
+
+/* Confirmation button */
+#serisvri-delivery-confirmation-button {
+    /* Layout & Box Model */
+    display: inline-block !important;
+    padding: 0.75em 1.5em !important;
+    margin: 0 !important;
+    
+    /* Typography */
+    font-size: 0.9375em !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    
+    /* Visual Styles */
+    background-color: #2271b1 !important;
+    color: #fff !important;
+    border: 1px solid #2271b1 !important;
+    border-radius: 3px !important;
+    cursor: pointer !important;
+    
+    /* Transitions */
+    transition: all 0.2s ease !important;
+}
+
+/* Button hover state */
+#serisvri-delivery-confirmation-button:hover {
+    background-color: #135e96 !important;
+    border-color: #135e96 !important;
+}
+
+/* Button active/focus state */
+#serisvri-delivery-confirmation-button:active,
+#serisvri-delivery-confirmation-button:focus {
+    background-color: #0c4b7a !important;
+    border-color: #0c4b7a !important;
+    outline: none !important;
+    box-shadow: 0 0 0 1px #fff, 0 0 0 3px #2271b1 !important;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 600px) {
+    #serisvri-delivery-notice-container {
+        /* Stack elements vertically on small screens */
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 1em !important;
+    }
+    
+    #serisvri-delivery-confirmation-button {
+        /* Make button full width */
+        width: 100% !important;
+    }
+}';
+    }
+
+    /**
+     * Show customization notice in admin
+     */
+    public function serisvri_customization_notice() {
+        $screen = get_current_screen();
+        if ($screen->id === 'woocommerce_page_wc-settings') {
+            echo '<div class="notice notice-info is-dismissible">';
+            echo '<h3>' . esc_html__('Customize Delivery Confirmation Styles', 'seris-order-manager') . '</h3>';
+            echo '<p>' . esc_html__('You can customize the appearance of the delivery confirmation section by copying the CSS from:', 'seris-order-manager') . '</p>';
+            echo '<p><strong>' . esc_html__('WooCommerce → Settings → Seris → Customization', 'seris-order-manager') . '</strong></p>';
+            echo '<p>' . esc_html__('Paste the CSS in your theme customizer, Elementor, or any custom CSS plugin.', 'seris-order-manager') . '</p>';
+            echo '</div>';
+        }
     }
 
     /**
@@ -78,7 +338,7 @@ class Serisvri_Order_Handler {
             'exclude_from_search'       => false,
             'show_in_admin_all_list'    => true,
             'show_in_admin_status_list' => true,
-			/* translators: %s: count of shipped orders */
+            /* translators: %s: count of shipped orders */
             'label_count'               => _n_noop(
                 'Shipped <span class="count">(%s)</span>', 
                 'Shipped <span class="count">(%s)</span>', 
@@ -287,32 +547,32 @@ class Serisvri_Order_Handler {
     }
 
     /**
-     * Add delivery confirmation button to order view
+     * Add delivery confirmation button on order view
      */
-    public function add_confirm_delivery_button_to_order_view($order) {
-        if (!is_user_logged_in() || get_current_user_id() !== $order->get_user_id()) {
-            return;
-        }
-        
-        if ($order->get_status() === 'completed') {
-            $confirm_url = wp_nonce_url(
-                add_query_arg(
-                    'confirm_delivery',
-                    $order->get_id(),
-                    wc_get_endpoint_url('view-order', $order->get_id(), wc_get_page_permalink('myaccount'))
-                ),
-                'woocommerce-confirm-delivery'
-            );
-            
-            echo '<div class="confirm-delivery-section">';
-            echo '<h3>' . esc_html__('Package Received?', 'seris-order-manager') . '</h3>';
-            echo '<p>' . esc_html__('Please confirm when you have received your package.', 'seris-order-manager') . '</p>';
-            echo '<a href="' . esc_url($confirm_url) . '" class="button">';
-            echo esc_html__('Confirm Delivery', 'seris-order-manager');
-            echo '</a>';
-            echo '</div>';
-        }
+public function add_confirm_delivery_button_to_order_view($order) {
+    if (!is_user_logged_in() || get_current_user_id() !== $order->get_user_id()) {
+        return;
     }
+    
+    if ($order->get_status() === 'completed') {
+        $confirm_url = wp_nonce_url(
+            add_query_arg(
+                'confirm_delivery',
+                $order->get_id(),
+                wc_get_endpoint_url('view-order', $order->get_id(), wc_get_page_permalink('myaccount'))
+            ),
+            'woocommerce-confirm-delivery'
+        );
+        
+        echo '<div id="serisvri-delivery-container">';
+        echo '<h3 id="serisvri-delivery-title">' . esc_html__('Package Received?', 'seris-order-manager') . '</h3>';
+        echo '<p id="serisvri-delivery-message">' . esc_html__('Please confirm when you have received your package.', 'seris-order-manager') . '</p>';
+        echo '<a href="' . esc_url($confirm_url) . '" id="serisvri-delivery-button" class="button">';
+        echo esc_html__('Confirm Delivery', 'seris-order-manager');
+        echo '</a>';
+        echo '</div>';
+    }
+}
 
     /**
      * Handle delivery confirmation
@@ -466,7 +726,7 @@ class Serisvri_Order_Handler {
         } catch (Exception $e) {
             wp_die(
                 sprintf(
-					/* translators: %s: error message */
+                    /* translators: %s: error message */
                     esc_html__('Error: %s', 'seris-order-manager'),
                     esc_html($e->getMessage())
                 ),
@@ -524,16 +784,17 @@ class Serisvri_Order_Handler {
         
         global $post;
         if ($post && 'shop_order' === $post->post_type) {
+            // Fix the CSS path - remove the extra slash
             wp_enqueue_style(
                 'serisvri-admin-order-css',
-                SERISVRI_SLIPS_URL . 'css/admin-order.css',
+                SERISVRI_SLIPS_URL . 'assets/css/admin-order.css', // Removed the extra slash
                 array(),
                 SERISVRI_SLIPS_VERSION
             );
             
             wp_enqueue_script(
                 'serisvri-order-admin',
-                SERISVRI_SLIPS_URL . 'js/admin-order.js',
+                SERISVRI_SLIPS_URL . 'assets/js/admin-order.js',
                 array('jquery'),
                 SERISVRI_SLIPS_VERSION,
                 true

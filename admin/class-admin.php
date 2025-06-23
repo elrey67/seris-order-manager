@@ -123,32 +123,32 @@ class Serisvri_Admin {
     /**
      * Enqueue admin scripts and styles
      */
-public function enqueue_scripts($hook) {
-    if ('toplevel_page_serisvri-settings' !== $hook) {
-        return;
-    }
+    public function enqueue_scripts($hook) {
+        if ('toplevel_page_serisvri-settings' !== $hook) {
+            return;
+        }
 
-    wp_enqueue_media();
-    wp_enqueue_style('serisvri-admin', SERISVRI_SLIPS_URL . 'assets/css/admin.css', array(), SERISVRI_SLIPS_VERSION);
-    
-    // Correct the path to admin.js
-    wp_enqueue_script(
-        'serisvri-admin', 
-        SERISVRI_SLIPS_URL . '/assets/js/admin.js', 
-        array('jquery'), 
-        SERISVRI_SLIPS_VERSION, 
-        true
-    );
-    
-    wp_localize_script('serisvri-admin', 'serisvri_vars', array(
-        'ajaxurl' => admin_url('admin-ajax.php'),
-        'preview_nonce' => wp_create_nonce('serisvri_preview_iframe'),
-        'ajax_nonce' => wp_create_nonce('serisvri_ajax_nonce'),
-        'title' => __('Select Logo', 'seris-order-manager'),
-        'button' => __('Use this logo', 'seris-order-manager'),
-        'paper_size' => $this->settings->get_paper_size()
-    ));
-}
+        wp_enqueue_media();
+        wp_enqueue_style('serisvri-admin', SERISVRI_SLIPS_URL . 'assets/css/admin.css', array(), SERISVRI_SLIPS_VERSION);
+        
+        // Correct the path to admin.js
+        wp_enqueue_script(
+            'serisvri-admin', 
+            SERISVRI_SLIPS_URL . '/assets/js/admin.js', 
+            array('jquery'), 
+            SERISVRI_SLIPS_VERSION, 
+            true
+        );
+        
+        wp_localize_script('serisvri-admin', 'serisvri_vars', array(
+            'ajaxurl' => admin_url('admin-ajax.php'),
+            'preview_nonce' => wp_create_nonce('serisvri_preview_iframe'),
+            'ajax_nonce' => wp_create_nonce('serisvri_ajax_nonce'),
+            'title' => __('Select Logo', 'seris-order-manager'),
+            'button' => __('Use this logo', 'seris-order-manager'),
+            'paper_size' => $this->settings->get_paper_size()
+        ));
+    }
     
 
     /**
@@ -173,6 +173,9 @@ public function enqueue_scripts($hook) {
         // Generate iframe URL with current settings
         $iframe_url = $this->get_preview_url();
 
+        // Get the order preview image attachment ID if available
+        $order_preview_image_id = attachment_url_to_postid(SERISVRI_SLIPS_URL . '/assets/images/order.png');
+        
         settings_errors('serisvri_messages'); ?>
         <div class="wrap">
             <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
@@ -190,6 +193,125 @@ public function enqueue_scripts($hook) {
                     <iframe id="serisvri-preview-iframe" 
                         src="<?php echo esc_url($iframe_url); ?>"
                         style="width:100%; height:500px; border:1px solid #ddd;"></iframe>
+                </div>
+            </div>
+
+            <div class="serisvri-css-info-section" style="margin-top: 30px; border-top: 1px solid #ddd; padding-top: 20px;">
+                <h2><?php esc_html_e('Custom CSS for Delivery Confirmation', 'seris-order-manager'); ?></h2>
+                
+                <div style="background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 4px; padding: 20px;">
+                    <p><?php esc_html_e('Use the CSS below to customize the appearance of the delivery confirmation section on the order view page.', 'seris-order-manager'); ?></p>
+                    <p><?php esc_html_e('Copy and paste this CSS into:', 'seris-order-manager'); ?></p>
+                    <ul style="list-style-type: disc; margin-left: 20px;">
+                        <li><?php esc_html_e('Elementor Custom CSS', 'seris-order-manager'); ?></li>
+                        <li><?php esc_html_e('Theme Customizer (Appearance > Customize > Additional CSS)', 'seris-order-manager'); ?></li>
+                        <li><?php esc_html_e('Any custom CSS plugin', 'seris-order-manager'); ?></li>
+                    </ul>
+                    
+                    <div style="margin: 20px 0;">
+                        <pre style="background: #fff; padding: 15px; border-radius: 4px; border: 1px solid #ddd; overflow-x: auto;"><code>/* ==============================================
+   SERIS Delivery Confirmation - Customizable CSS
+   Add these styles to:
+   - Theme Customizer (Appearance > Customize > Additional CSS)
+   - Elementor Custom CSS
+   - Any custom CSS plugin
+============================================== */
+
+/* Main container */
+#serisvri-delivery-container {
+    /* Layout */
+    margin: 20px 0;
+    padding: 15px;
+    
+    /* Borders & Background */
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    
+    /* Text Alignment */
+    text-align: center;
+}
+
+/* Title element */
+#serisvri-delivery-title {
+    /* Typography */
+    font-size: 1.25em;
+    font-weight: 600;
+    color: #2c3338;
+    
+    /* Spacing */
+    margin: 0 0 10px 0;
+}
+
+/* Message text */
+#serisvri-delivery-message {
+    /* Typography */
+    font-size: 0.9375em;
+    line-height: 1.5;
+    color: #50575e;
+    
+    /* Spacing */
+    margin: 0 0 15px 0;
+}
+
+/* Confirmation button */
+#serisvri-delivery-button {
+    /* Layout */
+    display: inline-block;
+    padding: 10px 20px;
+    
+    /* Typography */
+    font-size: 0.9375em;
+    font-weight: 600;
+    text-decoration: none;
+    
+    /* Colors */
+    background-color: #2271b1;
+    color: #fff;
+    border: 1px solid #2271b1;
+    border-radius: 3px;
+    
+    /* Effects */
+    transition: all 0.2s ease;
+}
+
+/* Button hover state */
+#serisvri-delivery-button:hover {
+    background-color: #135e96;
+    border-color: #135e96;
+    color: #fff;
+}
+
+/* Button active state */
+#serisvri-delivery-button:active {
+    background-color: #0c4b7a;
+    border-color: #0c4b7a;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    #serisvri-delivery-container {
+        padding: 12px;
+    }
+    
+    #serisvri-delivery-button {
+        display: block;
+        width: 100%;
+    }
+}</code></pre>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 20px;">
+                        <h3><?php esc_html_e('Delivery Confirmation Section Preview', 'seris-order-manager'); ?></h3>
+                        <?php if ($order_preview_image_id) : ?>
+                            <?php echo wp_get_attachment_image($order_preview_image_id, 'full', false, array(
+                                'style' => 'max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px;',
+                                'alt' => esc_attr__('Delivery Confirmation Section Preview', 'seris-order-manager')
+                            )); ?>
+                        <?php else : ?>
+                            <img src="<?php echo esc_url(SERISVRI_SLIPS_URL . '/assets/images/order.png'); ?>" alt="<?php esc_attr_e('Delivery Confirmation Section Preview', 'seris-order-manager'); ?>" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px;">
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
         </div>
@@ -233,6 +355,7 @@ public function enqueue_scripts($hook) {
      */
     public function render_company_logo_field() {
         $logo_url = $this->settings->get_company_logo();
+        $logo_id = $logo_url ? attachment_url_to_postid($logo_url) : 0;
         
         // Add notice about PNG format for colored logos
         echo '<div class="notice notice-info inline" style="margin-bottom: 15px; padding: 8px 12px;">';
@@ -247,7 +370,14 @@ public function enqueue_scripts($hook) {
         
         if ($logo_url) {
             echo '<div id="serisvri-logo-preview" style="margin-top:10px;">';
-            echo '<img src="'.esc_url($logo_url).'" style="max-height:100px;" alt="'.esc_attr__('Company Logo Preview', 'seris-order-manager').'">';
+            if ($logo_id) {
+                echo wp_get_attachment_image($logo_id, 'medium', false, array(
+                    'style' => 'max-height:100px;',
+                    'alt' => esc_attr__('Company Logo Preview', 'seris-order-manager')
+                ));
+            } else {
+                echo '<img src="'.esc_url($logo_url).'" style="max-height:100px;" alt="'.esc_attr__('Company Logo Preview', 'seris-order-manager').'">';
+            }
             echo '</div>';
         }
         
