@@ -20,6 +20,8 @@ Seris Order Manager is a powerful plugin designed to enhance your WooCommerce st
 * Include QR codes and barcodes for efficient tracking and verification.
 * Seamless WooCommerce integration for back-end and customer workflows.
 * Detailed order summaries and packaging details included with each shipment.
+* Added Shipped status for orders that has been received/Delivered
+* Adds a fully customizable frontend section that lets customers confirm they have received the order. 
 
 == Installation ==
 
