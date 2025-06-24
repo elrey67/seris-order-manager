@@ -97,11 +97,6 @@ class Serisvri_Core {
     }
 
     public function init() {
-        load_plugin_textdomain(
-            'seris-order-manager',
-            false,
-            dirname(plugin_basename(SERISVRI_PLUGIN_FILE)) . '/languages'
-        );
 
         $this->order_handler->init();
         $this->settings->init();

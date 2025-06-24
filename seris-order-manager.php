@@ -138,12 +138,6 @@ add_action('admin_enqueue_scripts', 'serisvri_enqueue_admin_assets');
  * Initialize the plugin
  */
 function serisvri_init_plugin() {
-    // Load text domain for translations
-    load_plugin_textdomain(
-        'seris-order-manager',
-        false,
-        dirname(plugin_basename(SERISVRI_PLUGIN_FILE)) . '/languages'
-    );
 
     try {
         $plugin = Serisvri_Core::get_instance();

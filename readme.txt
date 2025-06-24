@@ -1,5 +1,5 @@
 === Seris Order Manager ===
-Contributors: Faveren Caleb
+Contributors: serisvritra
 Tags: WooCommerce, receipt, packaging slip, order management, QR code
 Requires at least: 5.6
 Tested up to: 6.8
