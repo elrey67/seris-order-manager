@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Endroid\QrCode\Label\Margin;
 
-final readonly class Margin implements MarginInterface
+final class Margin implements MarginInterface
 {
     public function __construct(
         private int $top,

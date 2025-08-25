@@ -9,7 +9,7 @@ use Endroid\QrCode\Color\ColorInterface;
 use Endroid\QrCode\Encoding\Encoding;
 use Endroid\QrCode\Encoding\EncodingInterface;
 
-final readonly class QrCode implements QrCodeInterface
+final  class QrCode implements QrCodeInterface
 {
     public function __construct(
         private string $data,

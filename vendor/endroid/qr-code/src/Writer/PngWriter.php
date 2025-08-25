@@ -11,7 +11,7 @@ use Endroid\QrCode\Writer\Result\GdResult;
 use Endroid\QrCode\Writer\Result\PngResult;
 use Endroid\QrCode\Writer\Result\ResultInterface;
 
-final readonly class PngWriter extends AbstractGdWriter
+final  class PngWriter extends AbstractGdWriter
 {
     public const WRITER_OPTION_COMPRESSION_LEVEL = 'compression_level';
     public const WRITER_OPTION_NUMBER_OF_COLORS = 'number_of_colors';

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Endroid\QrCode\Label\Font;
 
-final readonly class Font implements FontInterface
+final class Font implements FontInterface
 {
     public function __construct(
         private string $path,

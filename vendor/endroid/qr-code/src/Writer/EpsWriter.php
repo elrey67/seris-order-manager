@@ -11,7 +11,7 @@ use Endroid\QrCode\QrCodeInterface;
 use Endroid\QrCode\Writer\Result\EpsResult;
 use Endroid\QrCode\Writer\Result\ResultInterface;
 
-final readonly class EpsWriter implements WriterInterface
+final  class EpsWriter implements WriterInterface
 {
     public const DECIMAL_PRECISION = 10;
 

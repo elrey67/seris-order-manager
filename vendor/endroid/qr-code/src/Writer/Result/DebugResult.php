@@ -15,11 +15,11 @@ final class DebugResult extends AbstractResult
 
     public function __construct(
         MatrixInterface $matrix,
-        private readonly QrCodeInterface $qrCode,
-        private readonly ?LogoInterface $logo = null,
-        private readonly ?LabelInterface $label = null,
+        private  QrCodeInterface $qrCode,
+        private  ?LogoInterface $logo = null,
+        private  ?LabelInterface $label = null,
         /** @var array<string, mixed> $options */
-        private readonly array $options = [],
+        private  array $options = [],
     ) {
         parent::__construct($matrix);
     }

@@ -13,7 +13,7 @@ use Endroid\QrCode\QrCodeInterface;
 use Endroid\QrCode\Writer\Result\ResultInterface;
 use Endroid\QrCode\Writer\Result\SvgResult;
 
-final readonly class SvgWriter implements WriterInterface
+final  class SvgWriter implements WriterInterface
 {
     public const DECIMAL_PRECISION = 2;
     public const WRITER_OPTION_COMPACT = 'compact';

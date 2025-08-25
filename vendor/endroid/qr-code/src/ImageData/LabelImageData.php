@@ -6,7 +6,7 @@ namespace Endroid\QrCode\ImageData;
 
 use Endroid\QrCode\Label\LabelInterface;
 
-final readonly class LabelImageData
+final class LabelImageData
 {
     private function __construct(
         private int $width,

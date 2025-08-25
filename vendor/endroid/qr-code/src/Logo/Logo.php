@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Endroid\QrCode\Logo;
 
-final readonly class Logo implements LogoInterface
+final class Logo implements LogoInterface
 {
     public function __construct(
         private string $path,

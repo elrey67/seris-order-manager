@@ -52,7 +52,7 @@
 
 .qr-code-container {
     text-align: right;
-    margin-top: -100px;
+    margin-top: 0px;
 }
 
 .qr-code-container img {
@@ -62,7 +62,7 @@
 
 .barcode-container {
     text-align: center;
-    margin-top: -20px;
+    margin-top: 0px;
 }
 
 .barcode-container img {

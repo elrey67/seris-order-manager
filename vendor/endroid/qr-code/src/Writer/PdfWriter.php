@@ -11,7 +11,7 @@ use Endroid\QrCode\QrCodeInterface;
 use Endroid\QrCode\Writer\Result\PdfResult;
 use Endroid\QrCode\Writer\Result\ResultInterface;
 
-final readonly class PdfWriter implements WriterInterface
+final  class PdfWriter implements WriterInterface
 {
     public const WRITER_OPTION_UNIT = 'unit';
     public const WRITER_OPTION_PDF = 'fpdf';

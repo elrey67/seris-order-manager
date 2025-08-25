@@ -11,7 +11,7 @@ use Endroid\QrCode\Label\Font\FontInterface;
 use Endroid\QrCode\Label\Margin\Margin;
 use Endroid\QrCode\Label\Margin\MarginInterface;
 
-final readonly class Label implements LabelInterface
+final class Label implements LabelInterface
 {
     public function __construct(
         private string $text,

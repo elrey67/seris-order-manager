@@ -6,7 +6,7 @@ namespace Endroid\QrCode\ImageData;
 
 use Endroid\QrCode\Logo\LogoInterface;
 
-final readonly class LogoImageData
+final  class LogoImageData
 {
     private function __construct(
         private string $data,

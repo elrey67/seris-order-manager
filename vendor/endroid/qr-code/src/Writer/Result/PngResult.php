@@ -11,8 +11,8 @@ final class PngResult extends GdResult
     public function __construct(
         MatrixInterface $matrix,
         \GdImage $image,
-        private readonly int $quality = -1,
-        private readonly ?int $numberOfColors = null,
+        private  int $quality = -1,
+        private  ?int $numberOfColors = null,
     ) {
         parent::__construct($matrix, $image);
     }

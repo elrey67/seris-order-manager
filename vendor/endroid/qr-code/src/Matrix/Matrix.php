@@ -7,7 +7,7 @@ namespace Endroid\QrCode\Matrix;
 use Endroid\QrCode\Exception\BlockSizeTooSmallException;
 use Endroid\QrCode\RoundBlockSizeMode;
 
-final readonly class Matrix implements MatrixInterface
+final class Matrix implements MatrixInterface
 {
     private float $blockSize;
     private int $innerSize;

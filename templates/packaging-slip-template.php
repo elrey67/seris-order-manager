@@ -20,9 +20,23 @@ $serisvri_customer_email = esc_html($order->get_billing_email());
 $serisvri_customer_phone = esc_html($order->get_billing_phone());
 $serisvri_customer_address = $order->get_formatted_shipping_address() ?: $order->get_formatted_billing_address();
 
-// Shipping information
+// Shipping information - FIXED: Use proper getter methods
 $serisvri_shipping_methods = $order->get_shipping_methods();
-$serisvri_shipping_method_names = array_map('esc_html', wp_list_pluck($serisvri_shipping_methods, 'method_title'));
+$serisvri_shipping_method_names = array();
+
+foreach ($serisvri_shipping_methods as $shipping_item) {
+    if (is_a($shipping_item, 'WC_Order_Item_Shipping')) {
+        // Use the proper getter method instead of direct property access
+        $method_title = $shipping_item->get_method_title();
+        if (!empty($method_title)) {
+            $serisvri_shipping_method_names[] = esc_html($method_title);
+        } else {
+            // Fallback to get_name() if method_title is empty
+            $serisvri_shipping_method_names[] = esc_html($shipping_item->get_name());
+        }
+    }
+}
+
 $serisvri_shipping_method = implode(', ', $serisvri_shipping_method_names);
 
 // Custom shipping meta

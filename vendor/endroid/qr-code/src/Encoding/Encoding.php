@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Endroid\QrCode\Encoding;
 
-final readonly class Encoding implements EncodingInterface
+final class Encoding implements EncodingInterface
 {
     public function __construct(
         private string $value,

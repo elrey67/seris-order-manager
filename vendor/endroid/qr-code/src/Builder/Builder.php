@@ -24,7 +24,7 @@ use Endroid\QrCode\Writer\Result\ResultInterface;
 use Endroid\QrCode\Writer\ValidatingWriterInterface;
 use Endroid\QrCode\Writer\WriterInterface;
 
-final readonly class Builder implements BuilderInterface
+final class Builder implements BuilderInterface
 {
     public function __construct(
         private WriterInterface $writer = new PngWriter(),
